@@ -11,3 +11,4 @@ class UserInfo(models.Model):
     urecieve=models.CharField(max_length=20, default="")
     uaddress=models.CharField(max_length=100, default="")
     upostcode=models.CharField(max_length=10, default="")
+    uphone=models.CharField(max_length=15, default="")

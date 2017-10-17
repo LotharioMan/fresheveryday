@@ -40,16 +40,31 @@ $(function(){
 
 	function check_user_name(){
 		var len = $('#user_name').val().length;
-		if(len<5||len>20)
+		if(len<4||len>20)
 		{
-			$('#user_name').next().html('请输入5-20个字符的用户名')
+			$('#user_name').next().html('请输入5-20个字符的用户名');
 			$('#user_name').next().show();
 			error_name = true;
 		}
 		else
 		{
-			$('#user_name').next().hide();
-			error_name = false;
+		    var user_name = $("#user_name").val();
+		    $.ajax({
+                type: "get",
+		        url: "/user/register_exist/?user_name="+user_name,
+		        success:function(data){
+                    if(data.count == 1){
+                        $('#user_name').next().html('用户名已存在！');
+			            $('#user_name').next().show();
+			            error_name = true;
+                    }else{
+                        $('#user_name').next().hide();
+			            error_name = false;
+                    }
+		        },
+		        dataType:"json"
+		    });
+
 		}
 	}
 
@@ -65,9 +80,8 @@ $(function(){
 		{
 			$('#pwd').next().hide();
 			error_password = false;
-		}		
+		}
 	}
-
 
 	function check_cpwd(){
 		var pass = $('#pwd').val();
@@ -83,8 +97,8 @@ $(function(){
 		{
 			$('#cpwd').next().hide();
 			error_check_password = false;
-		}		
-		
+		}
+
 	}
 
 	function check_email(){
@@ -111,7 +125,7 @@ $(function(){
 		check_cpwd();
 		check_email();
 
-		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
+		if(error_name == false && error_password == false && error_check_password == false &&               error_email == false && error_check == false)
 		{
 			return true;
 		}
